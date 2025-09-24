@@ -1,0 +1,84 @@
+<!-- Controls Card -->
+<div class="controls-card">
+  <div class="controls">
+    <!-- Vehicle Filter -->
+    <div class="form-group">
+      <label for="vehicleFilter">
+        <span class="icon">🚗</span>
+        Filter by Vehicle
+      </label>
+      <select id="vehicleFilter" [formControl]="vehicleFilter">
+        <option value="All">All</option>
+        <option value="Bike">Bike</option>
+        <option value="Car">Car</option>
+      </select>
+    </div>
+
+    <!-- Time Filter -->
+    <div class="form-group">
+      <label for="timeMatchControl">
+        <span class="icon">⏰</span>
+        Time (±60 min)
+      </label>
+      <input id="timeMatchControl" type="time" [formControl]="timeMatchControl" />
+    </div>
+
+    <!-- Booking Employee ID -->
+    <div class="form-group">
+      <label for="bookEmployeeId">
+        <span class="icon">🆔</span>
+        Booking Employee ID
+      </label>
+      <input id="bookEmployeeId" placeholder="Your Employee ID" [formControl]="bookEmployeeId" />
+    </div>
+  </div>
+</div>
+
+<!-- Ride List -->
+<div class="ride-list">
+  <div *ngIf="rides.length === 0" class="no-rides">
+    <p>No rides found</p>
+  </div>
+
+  <div *ngFor="let r of rides" class="ride-card">
+    <!-- Top Section -->
+    <div class="top">
+      <div class="vehicle-info">
+        <span class="vehicle-icon">{{ r.vehicleType === 'Car' ? '🚗' : '🏍️' }}</span>
+        <strong>{{ r.vehicleType }}</strong> - {{ r.vehicleNo }}
+      </div>
+      <div class="ride-time">{{ r.timeISO | date:'shortTime' }}</div>
+    </div>
+
+    <!-- Middle Section -->
+    <div class="middle">
+      <div>
+        <span class="label" style="color: green;">From:</span> {{ r.pickupPoint }}
+      </div>
+      <div>
+        <span class="label" style="color: red;">To:</span> {{ r.destination }}
+      </div>
+      <div>
+        <span class="label">Vacant Seats:</span> {{ r.vacantSeats }}
+      </div>
+      <div>
+        <span class="label">Employee ID:</span> {{ r.ownerEmployeeId }}
+      </div>
+    </div>
+
+    <!-- Passengers -->
+    <div *ngIf="r &&  r.bookedBy && r.bookedBy?.length  && r.bookedBy.length > 0" class="passengers">
+      <span class="label">Passengers:</span>
+      <div class="passenger-badges">
+        <span *ngFor="let p of r.bookedBy" class="badge">{{ p }}</span>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+      <button (click)="onBook(r.id)" [disabled]="r.vacantSeats <= 0">
+        {{ r.vacantSeats > 0 ? 'Book This Ride' : 'Fully Booked' }}
+      </button>
+    </div>
+  </div>
+</div>

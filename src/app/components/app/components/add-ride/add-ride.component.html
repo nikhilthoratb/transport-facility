@@ -1,0 +1,92 @@
+<div class="card">
+  <h2>Add Ride (Today only)</h2>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    
+    <!-- Employee ID -->
+    <div class="form-group">
+      <label for="ownerEmployeeId">Employee ID *</label>
+      <input id="ownerEmployeeId" formControlName="ownerEmployeeId" placeholder="Enter your employee ID" />
+      <small class="error" *ngIf="form.get('ownerEmployeeId')?.errors?.['required']">
+        Employee ID is required
+      </small>
+      <small class="error" *ngIf="!rideService.isOwnerIdUnique(form.get('ownerEmployeeId')?.value)">
+        Employee ID must be unique
+      </small>
+    </div>
+
+    <!-- Vehicle Type -->
+    <div class="form-group">
+      <label for="vehicleType">Vehicle Type *</label>
+      <select id="vehicleType" formControlName="vehicleType">
+        <option value="" disabled>Select vehicle type</option>
+        <option value="Bike">Bike</option>
+        <option value="Car">Car</option>
+      </select>
+      <small class="error" *ngIf="form.get('vehicleType')?.errors?.['required']">
+        Vehicle type is required
+      </small>
+    </div>
+
+    <!-- Vehicle Number -->
+    <div class="form-group">
+      <label for="vehicleNo">Vehicle No *</label>
+      <input id="vehicleNo" formControlName="vehicleNo" placeholder="e.g., MH12AB1234" />
+      <small class="error" *ngIf="form.get('vehicleNo')?.errors?.['required']">
+        Vehicle number is required
+      </small>
+    </div>
+
+    <!-- Vacant Seats -->
+    <div class="form-group">
+      <label for="vacantSeats">Vacant Seats *</label>
+      <input type="number" id="vacantSeats" formControlName="vacantSeats" min="1" placeholder="Number of seats" />
+      <small class="error" *ngIf="form.get('vacantSeats')?.errors?.['required']">
+        Vacant seats are required
+      </small>
+      <small class="error" *ngIf="form.get('vacantSeats')?.errors?.['min']">
+        At least 1 seat is required
+      </small>
+    </div>
+
+    <!-- Time -->
+    <div class="form-group">
+      <label for="time">Time (HH:MM) *</label>
+      <input type="time" id="time" formControlName="time" />
+      <small class="error" *ngIf="form.get('time')?.errors?.['required']">
+        Time is required
+      </small>
+    </div>
+
+    <!-- Pick-up Point -->
+    <div class="form-group">
+      <label for="pickupPoint">Pick-up Point *</label>
+      <input id="pickupPoint" formControlName="pickupPoint" placeholder="e.g., Main Gate" />
+      <small class="error" *ngIf="form.get('pickupPoint')?.errors?.['required']">
+        Pick-up point is required
+      </small>
+    </div>
+
+    <!-- Destination -->
+    <div class="form-group full-width">
+      <label for="destination">Destination *</label>
+      <input id="destination" formControlName="destination" placeholder="e.g., Bandra Station" />
+      <small class="error" *ngIf="form.get('destination')?.errors?.['required']">
+        Destination is required
+      </small>
+    </div>
+
+    <!-- Notes -->
+    <div class="notes">
+      <p><strong>Important Notes:</strong></p>
+      <ul>
+        <li>Rides can only be added for today</li>
+        <li>Your Employee ID must be unique for each ride</li>
+        <li>You cannot book your own ride</li>
+        <li>Colleagues can find your ride within ±60 minutes of their search time</li>
+      </ul>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" [disabled]="form.invalid">Add Ride</button>
+  </form>
+</div>

@@ -1,0 +1,41 @@
+<header class="app-header">
+  <div class="logo">🚐</div>
+  <div class="header-text">
+    <h1>Transport Facility Management</h1>
+    <p>Schedule and book rides for today</p>
+  </div>
+</header>
+
+<section class="stats">
+  <div class="card total-rides">
+    <div class="icon">🚘</div>
+    <div class="info">
+      <h2>{{ totalRides }}</h2>
+      <p>Total Rides</p>
+    </div>
+  </div>
+  <div class="card available-seats">
+    <div class="icon">💺</div>
+    <div class="info">
+      <h2>{{ availableSeats }}</h2>
+      <p>Available Seats</p>
+    </div>
+  </div>
+  <div class="card active-bookings">
+    <div class="icon">⏱️</div>
+    <div class="info">
+      <h2>{{ activeBookings }}</h2>
+      <p>Active Bookings</p>
+    </div>
+  </div>
+</section>
+
+<nav class="tabs">
+  <button [class.active]="activeTab==='find'" (click)="setTab('find')">Find Rides</button>
+  <button [class.active]="activeTab==='add'" (click)="setTab('add')">Add Ride</button>
+</nav>
+
+<section class="tab-content">
+  <app-ride-list *ngIf="activeTab==='find'"></app-ride-list>
+  <app-add-ride *ngIf="activeTab==='add'"></app-add-ride>
+</section>
